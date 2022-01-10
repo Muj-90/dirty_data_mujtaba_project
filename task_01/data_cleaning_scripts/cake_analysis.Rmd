@@ -1,0 +1,93 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+
+```
+
+```{r}
+library(dplyr)
+```
+
+```{r}
+library(readr)
+cake <- read_csv("~/Documents/codeclan/dirty_data_codeclan_project_mujtaba/dirty_data_mujtaba_project/task_01/clean_data/cake.csv")
+View(cake)
+```
+
+
+#start the analysis of clean data to a new file, ready for analysis
+
+# Data Analysis
+
+#Q1 Which cake has the most cocoa in it? 
+
+
+```{r}
+cake %>% 
+  filter(ingredient == "Cocoa") %>% 
+arrange(desc(quantity)) %>% 
+  head(1)
+```
+
+#Q2 For sponge cake, how many cups of ingredients are used in total? 
+
+# Sponge exists in the cake variable as "Sponge". Sponge cake ingredients that come in cup measurements can be filtered and then totalled
+
+```{r}
+cake %>% 
+  filter(Cake == "sponge") %>% 
+ filter(measure == "cup") %>% 
+   summarise(cup = sum(quantity))
+```
+
+#Q3 How many ingredients are measured in teaspoons?
+
+
+#This can be found by first filtering for "teaspoon" in the measure column. then counting the distinct rows.
+
+
+```{r}
+cake %>% 
+  filter(measure == "teaspoons") %>% 
+  distinct(ingredient) %>%
+  pull()
+ 
+```
+
+
+
+
+
+#Q4 Which cake has the most unique ingredients?
+
+#This can be found by first grouping by cake and then using distinct() to count only distinct ingredients in each cake.
+
+
+```{r}
+cake %>% 
+  group_by(Cake) %>% 
+  summarise(numb_ingredient = n()) %>% 
+  arrange(desc(numb_ingredient))
+```
+
+
+
+
+#5 Which ingredients are used only once?
+
+#This can be found by group the ingredient and summrise the number  of each ingrediant. 
+```{r}
+cake %>% 
+  group_by(ingredient) %>% 
+  summarise(numb_ = n()) %>% 
+filter(numb_cake == 1)
+```
+```{r}
+cake %>% 
+  filter(numb_cakes == 1)
+```
+
